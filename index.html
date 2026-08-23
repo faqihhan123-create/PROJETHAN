@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Login</title>
+    <!-- Menghubungkan ke file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Selamat Datang</h2>
+        <form id="formLogin">
+            
+            <!-- Baris 1: Nama -->
+            <div class="input-group">
+                <label for="nama">Nama Lengkap</label>
+                <!-- Value diatur ke HANIF agar otomatis terisi -->
+                <input type="text" id="nama" value="HANIF" readonly>
+            </div>
+
+            <!-- Baris 2: Password -->
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password..." required>
+            </div>
+
+            <button type="submit" class="btn-login">LOGIN</button>
+            
+            <!-- Tempat untuk menampilkan pesan sukses/gagal -->
+            <p id="pesan"></p>
+
+        </form>
+    </div>
+
+    <!-- Menghubungkan ke file JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
