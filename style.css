@@ -7,7 +7,7 @@
 body {
     width: 100vw;
     height: 100vh;
-    overflow: hidden; /* Mencegah layar bisa di-scroll akibat balon */
+    overflow: hidden;
     background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
@@ -18,30 +18,47 @@ body {
     background-color: #000; 
 }
 
-/* Pengaturan Canvas Balon */
+/* Overlay Transisi Layar */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99;
+    transition: opacity 1s ease;
+}
+
+#overlay.aktif {
+    opacity: 1;
+}
+
+/* Canvas Balon */
 #canvasBalon {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Balon berada di belakang tombol */
+    z-index: 1;
 }
 
-/* Pengaturan Posisi Tombol */
+/* UI Tombol */
 .ui-container {
     position: relative;
-    z-index: 10; /* Tombol berada paling depan */
+    z-index: 10;
 }
 
-/* Desain Tombol HANIF REVISI (Lebih kecil & Font Elegan) */
+/* Tombol HANIF Elegan */
 #btnHanif {
-    /* Menggunakan Font Elegan */
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; /* Ukuran diperkecil dari sebelumnya */
+    font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: 4px;
-    padding: 12px 35px; /* Bantalan diperkecil */
+    padding: 12px 35px;
     
     background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(2px);
@@ -57,7 +74,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Efek saat tombol di-hover atau disentuh */
 #btnHanif:hover {
     transform: scale(1.1);
     background: rgba(255, 255, 255, 0.15);
