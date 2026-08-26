@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000; /* Warna dasar jika gambar telat loading */
+    background-color: #000; 
 }
 
 /* Pengaturan Canvas Balon */
@@ -34,29 +34,32 @@ body {
     z-index: 10; /* Tombol berada paling depan */
 }
 
-/* Desain Tombol HANIF (Satu baris, Border Transparan) */
+/* Desain Tombol HANIF REVISI (Lebih kecil & Font Elegan) */
 #btnHanif {
-    background: rgba(255, 255, 255, 0.1); /* Sedikit efek kaca tipis */
+    /* Menggunakan Font Elegan */
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; /* Ukuran diperkecil dari sebelumnya */
+    font-weight: 800;
+    letter-spacing: 4px;
+    padding: 12px 35px; /* Bantalan diperkecil */
+    
+    background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     
-    /* BORDER TRANSPARAN SESUAI PERMINTAAN */
+    /* BORDER TRANSPARAN */
     border: 2px solid transparent; 
     
-    color: #ffffff; /* Warna teks putih */
-    font-size: 3rem; /* Ukuran font besar */
-    font-weight: 800;
-    letter-spacing: 5px;
-    padding: 15px 40px;
+    color: #ffffff; 
     border-radius: 50px;
     cursor: pointer;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* Shadow agar teks terbaca jelas di background terang */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     transition: all 0.3s ease;
 }
 
 /* Efek saat tombol di-hover atau disentuh */
 #btnHanif:hover {
     transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.2);
-    text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.15);
+    text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.9);
 }
