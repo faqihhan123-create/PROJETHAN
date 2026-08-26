@@ -3,7 +3,6 @@ const btnHanif = document.getElementById('btnHanif');
 btnHanif.addEventListener('click', () => {
     // UBAH "halaman-utama.html" dengan nama file tujuanmu nanti
     window.location.href = "halaman-utama.html"; 
-    // Jika belum ada file tujuan, ganti dengan: alert("Selamat datang HANIF!");
 });
 
 // 2. SISTEM FISIKA BALON (CANVAS)
@@ -57,17 +56,13 @@ class Balon {
         // Rotasi
         this.rotasi = Math.random() * 360;
         this.kecepatanRotasi = (Math.random() - 0.5) * 0.05;
-        this.mass = 1; // Massa untuk perhitungan tabrakan
     }
 
     draw() {
         ctx.save();
-        // Karena background gambar balon berwarna hitam, kita pakai screen blend mode 
-        // agar background hitamnya hilang transparan.
         ctx.globalCompositeOperation = "screen"; 
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotasi);
-        // Gambar ditaruh ditengah koordinat
         ctx.drawImage(this.gambar, -this.radius, -this.radius * 1.5, this.radius * 2, this.radius * 3);
         ctx.restore();
     }
@@ -92,7 +87,7 @@ class Balon {
 
             // Jika bertabrakan
             if (jarak < minimalJarak) {
-                // 1. Pisahkan mereka secara paksa agar tidak tembus/nyangkut (Resolve Overlap)
+                // 1. Pisahkan paksa agar tidak nyangkut (Mencegah BUG)
                 let overlap = minimalJarak - jarak;
                 let dx = this.x - balonLain[i].x;
                 let dy = this.y - balonLain[i].y;
@@ -102,7 +97,7 @@ class Balon {
                 balonLain[i].x -= (dx / jarak) * (overlap / 2);
                 balonLain[i].y -= (dy / jarak) * (overlap / 2);
 
-                // 2. Tukar kecepatan (Efek Terpental / Bouncing)
+                // 2. Tukar kecepatan (Efek Terpental)
                 let tempDx = this.dx;
                 let tempDy = this.dy;
                 this.dx = balonLain[i].dx;
@@ -115,49 +110,57 @@ class Balon {
         // Gerakkan balon
         this.x += this.dx;
         this.y += this.dy;
-        
-        // Putar balon sedikit demi sedikit
         this.rotasi += this.kecepatanRotasi;
     }
 }
 
-// Inisialisasi Balon setelah semua gambar siap
+// Inisialisasi Balon
 function init() {
     arrayBalon = [];
-    // Membuat 7 Balon
-    for (let i = 0; i < 7; i++) {
-        let radius = window.innerWidth < 600 ? 30 : 50; // Ukuran responsif (HP lebih kecil)
+    const jumlahTotalBalon = 14; // 7 warna x 2
+
+    for (let i = 0; i < jumlahTotalBalon; i++) {
+        // Ukuran diperkecil sedikit agar muat 14 balon di HP
+        let radius = window.innerWidth < 600 ? 25 : 45; 
         let x = Math.random() * (canvas.width - radius * 2) + radius;
         let y = Math.random() * (canvas.height - radius * 2) + radius;
         
-        // Cek agar saat pertama kali muncul tidak saling tumpuk
+        let aman = false;
+        let attempts = 0; // Mencegah bug infinite loop di layar kecil
+
+        // Logika anti-tumpuk saat pertama kali muncul
         if (i !== 0) {
-            for (let j = 0; j < arrayBalon.length; j++) {
-                if (getJarak(x, y, arrayBalon[j].x, arrayBalon[j].y) - radius * 2 < 0) {
-                    x = Math.random() * (canvas.width - radius * 2) + radius;
-                    y = Math.random() * (canvas.height - radius * 2) + radius;
-                    j = -1; // Ulang loop
+            while (!aman && attempts < 100) {
+                aman = true;
+                for (let j = 0; j < arrayBalon.length; j++) {
+                    if (getJarak(x, y, arrayBalon[j].x, arrayBalon[j].y) - radius * 2 < 0) {
+                        aman = false;
+                        x = Math.random() * (canvas.width - radius * 2) + radius;
+                        y = Math.random() * (canvas.height - radius * 2) + radius;
+                        break;
+                    }
                 }
+                attempts++;
             }
         }
         
-        // Pilih gambar dari array berdasarkan index
+        // Memilih gambar secara berulang (0-6, lalu 0-6 lagi)
         let gambarDipilih = gambarDiLoad[i % gambarDiLoad.length];
         arrayBalon.push(new Balon(x, y, radius, gambarDipilih));
     }
 }
 
-// Loop Animasi (Berjalan terus menerus)
+// Loop Animasi
 function animasi() {
     requestAnimationFrame(animasi);
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Bersihkan frame sebelumnya
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     arrayBalon.forEach(balon => {
         balon.update(arrayBalon);
     });
 }
 
-// Tunggu 1 detik agar gambar terload dengan baik, lalu jalankan animasi
+// Tunggu sebentar agar gambar terload, lalu jalankan
 setTimeout(() => {
     init();
     animasi();
