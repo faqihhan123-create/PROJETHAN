@@ -6,6 +6,7 @@ const overlay = document.getElementById('overlay');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Agar kanvas selalu pas saat layar HP diputar / Laptop diresize
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -18,9 +19,10 @@ const daftarGambarBalon = [
 ];
 
 let arrayBalon = [];
+let arrayPartikel = []; // Array untuk debu pensil
 const gambarDiLoad = [];
 let sedangMembentukHati = false;
-let waktuGlobal = 0; // Waktu untuk gelombang ombak
+let waktuGlobal = 0;
 
 daftarGambarBalon.forEach((src) => {
     const img = new Image();
@@ -34,7 +36,44 @@ function getJarak(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
-// Class Balon dengan Fisika Organik
+// ==========================================
+// 1. CLASS PARTIKEL DEBU PENSIL (CONCEPT 4)
+// ==========================================
+class PartikelDebu {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 1.5; // Sangat kecil
+        this.kecepatanY = Math.random() * 0.5 + 0.1; // Jatuh pelan ke bawah
+        this.kecepatanX = (Math.random() - 0.5) * 0.3; // Melayang kiri-kanan
+        this.opacity = Math.random() * 0.4; // Transparan agar estetik
+    }
+
+    update() {
+        this.y += this.kecepatanY;
+        this.x += this.kecepatanX;
+
+        // Jika partikel debu jatuh melewati layar bawah, munculkan lagi di atas
+        if (this.y > canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * canvas.width;
+        }
+
+        this.draw();
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        // Warna abu-abu gelap khas grafit pensil
+        ctx.fillStyle = `rgba(50, 50, 50, ${this.opacity})`; 
+        ctx.fill();
+    }
+}
+
+// ==========================================
+// 2. CLASS BALON (FISIKA ORGANIK & HATI)
+// ==========================================
 class Balon {
     constructor(x, y, radius, gambar, index) {
         this.x = x;
@@ -43,17 +82,11 @@ class Balon {
         this.gambar = gambar;
         this.index = index;
         
-        // Kecepatan & Gelombang
         this.dx = (Math.random() - 0.5) * 2; 
         this.dy = (Math.random() - 0.5) * 2;
-        this.wobbleSpeed = 0.02 + Math.random() * 0.02; // Variasi kecepatan goyang
-        this.wobbleAmp = 0.8 + Math.random() * 0.5;     // Amplitudo gelombang
+        this.wobbleAmp = 0.8 + Math.random() * 0.5;
         
-        // Rotasi & Goyangan
         this.rotasi = (Math.random() - 0.5) * 0.5;
-        this.kecepatanRotasi = (Math.random() - 0.5) * 0.02;
-
-        // Target Formasi Hati
         this.baseTargetX = 0;
         this.baseTargetY = 0;
     }
@@ -63,8 +96,6 @@ class Balon {
         ctx.globalCompositeOperation = "screen"; 
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotasi);
-        
-        // Menggambar balon
         ctx.drawImage(this.gambar, -this.radius, -this.radius * 1.5, this.radius * 2, this.radius * 3);
         ctx.restore();
     }
@@ -73,31 +104,21 @@ class Balon {
         this.draw();
 
         if (sedangMembentukHati) {
-            // === EFEK BERNAFAS / HEARTBEAT (AGAR TIDAK KAKU SAAT BENTUK HATI) ===
-            // Formasi Hati mengembang dan menguncup secara halus
             let pulse = Math.sin(waktuGlobal * 3 + this.index * 0.2) * 8; 
-            
             let targetX = this.baseTargetX + (this.baseTargetX - canvas.width/2) * (pulse * 0.01);
             let targetY = this.baseTargetY + (this.baseTargetY - canvas.height/2) * (pulse * 0.01);
 
-            // Pergerakan halus ke target (Smooth Easing)
             this.x += (targetX - this.x) * 0.04;
             this.y += (targetY - this.y) * 0.04;
-            
-            // Goyangan halus saat berbentuk hati
             this.rotasi = Math.sin(waktuGlobal * 2 + this.index) * 0.15;
 
         } else {
-            // === EFEK GERAKAN BERENANG ORGANIK (SINE WAVE) ===
-            // Menambahkan gerakan meliuk halus agar tidak seperti garis lurus
             this.x += Math.sin(waktuGlobal * 2 + this.index) * this.wobbleAmp;
             this.y += Math.cos(waktuGlobal * 1.5 + this.index) * (this.wobbleAmp * 0.5);
 
-            // Pantulan Dinding Layar
             if (this.x + this.radius > canvas.width || this.x - this.radius < 0) this.dx = -this.dx;
             if (this.y + this.radius > canvas.height || this.y - this.radius < 0) this.dy = -this.dy;
 
-            // Pantulan antar Balon (Fisika Memantul)
             for (let i = 0; i < balonLain.length; i++) {
                 if (this === balonLain[i]) continue;
                 let jarak = getJarak(this.x, this.y, balonLain[i].x, balonLain[i].y);
@@ -124,18 +145,18 @@ class Balon {
 
             this.x += this.dx;
             this.y += this.dy;
-            
-            // Rotasi berayun pelan
             this.rotasi += Math.sin(waktuGlobal) * 0.005;
         }
     }
 }
 
-// Inisialisasi 14 Balon
+// INISIALISASI BALON & PARTIKEL
 function init() {
     arrayBalon = [];
+    arrayPartikel = [];
+    
+    // Membuat 14 Balon
     const jumlahTotalBalon = 14;
-
     for (let i = 0; i < jumlahTotalBalon; i++) {
         let radius = window.innerWidth < 600 ? 25 : 42; 
         let x = Math.random() * (canvas.width - radius * 2) + radius;
@@ -144,55 +165,79 @@ function init() {
         let gambarDipilih = gambarDiLoad[i % gambarDiLoad.length];
         arrayBalon.push(new Balon(x, y, radius, gambarDipilih, i));
     }
+
+    // Membuat 50 Partikel Debu Pensil
+    for(let i = 0; i < 50; i++) {
+        arrayPartikel.push(new PartikelDebu());
+    }
 }
 
-// Rumus Formasi Hati Presisi
 function hitungPosisiHati() {
     const total = arrayBalon.length;
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2 - 20; // Ditinggikan sedikit agar pas di tengah tombol
+    const centerY = canvas.height / 2 - 20; 
     const scale = Math.min(canvas.width, canvas.height) * 0.016;
 
     arrayBalon.forEach((balon, i) => {
         let t = (i / total) * Math.PI * 2; 
-
         let x = 16 * Math.pow(Math.sin(t), 3);
         let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-
         balon.baseTargetX = centerX + x * scale;
         balon.baseTargetY = centerY + y * scale;
     });
 }
 
-// Aksi Tombol HANIF
+// AKSI TOMBOL HANIF
 btnHanif.addEventListener('click', () => {
     sedangMembentukHati = true;
     hitungPosisiHati();
 
-    // Layar mulai meredup halus setelah balon membentuk hati
     setTimeout(() => {
         overlay.classList.add('aktif');
     }, 1800);
 
-    // Pindah Halaman
     setTimeout(() => {
         window.location.href = "halaman-utama.html"; 
     }, 2800);
 });
 
-// Loop Animasi
+// ==========================================
+// 3. BUG FIX: BACK BUTTON (BfCache)
+// ==========================================
+// Kode ini memaksa layar hitam (overlay) hilang dan balon menyebar 
+// kembali jika kamu menekan tombol "Back / Kembali" dari halaman utama.
+window.addEventListener('pageshow', function(event) {
+    // Jika halaman diload dari cache (kembali)
+    if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+        overlay.classList.remove('aktif');
+        sedangMembentukHati = false;
+        // Opsional: Kocok ulang posisi balon agar kembali berenang acak
+        arrayBalon.forEach(balon => {
+            balon.dx = (Math.random() - 0.5) * 2; 
+            balon.dy = (Math.random() - 0.5) * 2;
+        });
+    }
+});
+
+// LOOP ANIMASI UTAMA
 function animasi() {
     requestAnimationFrame(animasi);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    waktuGlobal += 0.02; // Penambah waktu untuk gelombang animasi
+    waktuGlobal += 0.02; 
 
+    // Update Partikel Debu
+    arrayPartikel.forEach(partikel => {
+        partikel.update();
+    });
+
+    // Update Balon
     arrayBalon.forEach(balon => {
         balon.update(arrayBalon);
     });
 }
 
-// Jalankan
+// JALANKAN PROGRAM
 setTimeout(() => {
     init();
     animasi();
