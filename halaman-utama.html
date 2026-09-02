@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Kesenangan - HANIF</title>
+    <link rel="stylesheet" href="style-utama.css">
+</head>
+<body>
+
+    <!-- Container Scrapbook (BG Full) -->
+    <div class="scrapbook-container">
+        
+        <!-- Board Polaroid di Area Tengah-Bawah -->
+        <div class="polaroid-board">
+            
+            <!-- Polaroid 1 (Miring Kiri) -->
+            <div class="polaroid polaroid-1" data-foto="foto1.jpg">
+                <img src="foto1.jpg" alt="Foto 1" loading="lazy">
+            </div>
+
+            <!-- Polaroid 2 (Miring Kanan) -->
+            <div class="polaroid polaroid-2" data-foto="foto2.jpg">
+                <img src="foto2.jpg" alt="Foto 2" loading="lazy">
+            </div>
+
+            <!-- Polaroid 3 (Miring Kiri Sedikit) -->
+            <div class="polaroid polaroid-3" data-foto="foto3.jpg">
+                <img src="foto3.jpg" alt="Foto 3" loading="lazy">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Overlay Zoom-In Sinematik -->
+    <div id="zoomOverlay" class="zoom-overlay">
+        <img id="zoomImage" src="" alt="Zoom Foto">
+        <span class="close-hint">Klik di luar untuk menutup</span>
+    </div>
+
+    <script src="script-utama.js"></script>
+</body>
+</html>
