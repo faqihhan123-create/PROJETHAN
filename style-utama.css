@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000;
+    font-family: Arial, sans-serif;
+}
+
+/* ==========================================
+   BG SCRAPBOOK (OPSI A - COVER)
+   ========================================== */
+.scrapbook-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('scrapbook.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ==========================================
+   BOARD POLAROID DI AREA TENGAH-BAWAH
+   ========================================== */
+.polaroid-board {
+    position: absolute;
+    /* Posisi di area kosong tengah-bawah scrapbook */
+    top: 55%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0; /* Tidak ada jarak, kita overlap manual */
+    z-index: 5;
+}
+
+/* ==========================================
+   BINGKAI POLAROID (OTOMATIS via CSS)
+   ========================================== */
+.polaroid {
+    background: #fff;
+    padding: 12px 12px 40px 12px; /* Bawah lebih tebal (khas polaroid) */
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.25),
+        0 8px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    width: 180px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto tidak gepeng, dipotong rapi */
+    display: block;
+    filter: grayscale(15%) contrast(1.05); /* Sentuhan estetik vintage */
+}
+
+/* Rotasi & Overlap Masing-Masing Polaroid */
+.polaroid-1 {
+    transform: rotate(-8deg);
+    margin-right: -30px; /* Overlap ke kanan */
+    z-index: 1;
+}
+
+.polaroid-2 {
+    transform: rotate(5deg);
+    z-index: 2; /* Paling depan */
+}
+
+.polaroid-3 {
+    transform: rotate(-3deg);
+    margin-left: -30px; /* Overlap ke kiri */
+    z-index: 1;
+}
+
+/* Efek Hover (Naik & Mengangkat Bayangan) */
+.polaroid:hover {
+    transform: translateY(-15px) rotate(0deg) scale(1.08);
+    box-shadow: 
+        0 15px 25px rgba(0, 0, 0, 0.35),
+        0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* ==========================================
+   OVERLAY ZOOM-IN SINEMATIK
+   ========================================== */
+.zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.zoom-overlay.aktif {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#zoomImage {
+    max-width: 85%;
+    max-height: 80%;
+    background: #fff;
+    padding: 20px 20px 60px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    transform: scale(0.5) rotate(0deg);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    object-fit: contain;
+}
+
+.zoom-overlay.aktif #zoomImage {
+    transform: scale(1) rotate(0deg);
+}
+
+.close-hint {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   RESPONSIF UNTUK HP (Portrait)
+   ========================================== */
+@media (max-width: 768px) {
+    .polaroid-board {
+        top: 60%;
+        left: 50%;
+        gap: 0;
+    }
+
+    .polaroid {
+        width: 100px;
+        height: 115px;
+        padding: 6px 6px 22px 6px;
+    }
+
+    .polaroid-1 {
+        margin-right: -18px;
+    }
+
+    .polaroid-3 {
+        margin-left: -18px;
+    }
+
+    #zoomImage {
+        max-width: 90%;
+        padding: 12px 12px 35px 12px;
+    }
+
+    .close-hint {
+        font-size: 0.7rem;
+    }
+}
+
+/* Layar sangat kecil (HP kecil) */
+@media (max-width: 400px) {
+    .polaroid {
+        width: 80px;
+        height: 92px;
+        padding: 5px 5px 18px 5px;
+    }
+
+    .polaroid-1 {
+        margin-right: -15px;
+    }
+
+    .polaroid-3 {
+        margin-left: -15px;
+    }
+}
