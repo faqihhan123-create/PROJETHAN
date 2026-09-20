@@ -1,12 +1,10 @@
 // ==========================================
-// SISTEM ZOOM-IN SINEMATIK POLAROID
+// 1. SISTEM ZOOM POLAROID
 // ==========================================
-
 const semuaPolaroid = document.querySelectorAll('.polaroid');
 const zoomOverlay = document.getElementById('zoomOverlay');
 const zoomImage = document.getElementById('zoomImage');
 
-// Event Klik pada Setiap Polaroid
 semuaPolaroid.forEach(polaroid => {
     polaroid.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -15,43 +13,68 @@ semuaPolaroid.forEach(polaroid => {
     });
 });
 
-// Fungsi Membuka Zoom
 function bukaZoom(src) {
     zoomImage.src = src;
     zoomOverlay.classList.add('aktif');
     document.body.style.overflow = 'hidden';
 }
 
-// Fungsi Menutup Zoom (Klik di area gelap)
 zoomOverlay.addEventListener('click', function(e) {
     if (e.target === zoomOverlay || e.target.classList.contains('close-hint')) {
         tutupZoom();
     }
 });
 
-// Fungsi Menutup Zoom
 function tutupZoom() {
     zoomOverlay.classList.remove('aktif');
-    setTimeout(() => {
-        zoomImage.src = '';
-    }, 500);
+    setTimeout(() => { zoomImage.src = ''; }, 500);
     document.body.style.overflow = '';
 }
 
-// Tutup zoom dengan tombol ESC (Laptop)
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && zoomOverlay.classList.contains('aktif')) {
-        tutupZoom();
+// ==========================================
+// 2. SISTEM MODAL NARASI K3RS (IM)
+// ==========================================
+const btnIM = document.getElementById('btnIM');
+const modalNarasi = document.getElementById('modalNarasi');
+const btnCloseNarasi = document.getElementById('btnCloseNarasi');
+
+// Buka Modal Narasi
+btnIM.addEventListener('click', function(e) {
+    e.stopPropagation();
+    modalNarasi.classList.add('aktif');
+    document.body.style.overflow = 'hidden';
+});
+
+// Tutup Modal via Tombol X
+btnCloseNarasi.addEventListener('click', function() {
+    tutupModalNarasi();
+});
+
+// Tutup Modal via Klik Luar Kertas
+modalNarasi.addEventListener('click', function(e) {
+    if (e.target === modalNarasi) {
+        tutupModalNarasi();
     }
 });
 
+function tutupModalNarasi() {
+    modalNarasi.classList.remove('aktif');
+    document.body.style.overflow = '';
+}
+
 // ==========================================
-// BUG FIX: BACK BUTTON (BfCache)
+// 3. KEYBOARD SHORTCUT (ESC) & BUG FIX BACK
 // ==========================================
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        if (zoomOverlay.classList.contains('aktif')) tutupZoom();
+        if (modalNarasi.classList.contains('aktif')) tutupModalNarasi();
+    }
+});
+
 window.addEventListener('pageshow', function(event) {
     if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-        zoomOverlay.classList.remove('aktif');
-        zoomImage.src = '';
-        document.body.style.overflow = '';
+        tutupZoom();
+        tutupModalNarasi();
     }
 });
