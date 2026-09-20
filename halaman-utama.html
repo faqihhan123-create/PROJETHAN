@@ -4,36 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruang Kesenangan - HANIF</title>
+
+    <!-- Import Google Font Elegan & Sangat Jelas Dibaca -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style-utama.css">
 </head>
 <body>
 
-    <!-- Container Scrapbook (BG Full) -->
     <div class="scrapbook-container">
         
-        <!-- Board Polaroid di Area Tengah-Bawah -->
+        <!-- Board 3 Polaroid -->
         <div class="polaroid-board">
-            
-            <!-- Polaroid 1 (Miring Kiri) -->
             <div class="polaroid polaroid-1" data-foto="foto1.jpg">
                 <img src="foto1.jpg" alt="Foto 1" loading="lazy">
             </div>
-
-            <!-- Polaroid 2 (Miring Kanan) -->
             <div class="polaroid polaroid-2" data-foto="foto2.jpg">
                 <img src="foto2.jpg" alt="Foto 2" loading="lazy">
             </div>
-
-            <!-- Polaroid 3 (Miring Kiri Sedikit) -->
             <div class="polaroid polaroid-3" data-foto="foto3.jpg">
                 <img src="foto3.jpg" alt="Foto 3" loading="lazy">
             </div>
-
         </div>
+
+        <!-- ============================================
+             TOMBOL (IM) BACKGROUND COKELAT
+             ============================================ -->
+        <button id="btnIM" class="btn-im" aria-label="Buka Narasi (IM)">
+            (IM)
+        </button>
 
     </div>
 
-    <!-- Overlay Zoom-In Sinematik -->
+    <!-- ============================================
+         MODAL POP-UP NARASI K3RS
+         ============================================ -->
+    <div id="modalNarasi" class="modal-overlay">
+        <div class="modal-card">
+            <!-- Tombol Tutup X -->
+            <button id="btnCloseNarasi" class="btn-close-narasi">&times;</button>
+
+            <!-- Isi Teks Narasi -->
+            <article class="narasi-content">
+                <h1 class="narasi-title">Dari Maba, Menuju Profesional K3RS</h1>
+                <div class="narasi-divider"></div>
+
+                <p class="paragraph lead">
+                    Halo capora, saya <strong>Faqih Hanif Fadlurohman</strong>, mahasiswa baru Program Studi Kesehatan Lingkungan.
+                </p>
+
+                <p class="paragraph">
+                    Sebagai mahasiswa baru, saya menyadari bahwa perjalanan saya masih panjang. Banyak ilmu, pengalaman, dan keterampilan yang harus saya pelajari selama menempuh pendidikan.
+                </p>
+
+                <p class="paragraph highlight-box">
+                    Salah satu bidang yang menarik perhatian saya adalah <em>Kesehatan dan Keselamatan Kerja di Rumah Sakit atau K3RS</em>.
+                </p>
+
+                <p class="paragraph">
+                    Menurut saya, rumah sakit bukan hanya tempat untuk memberikan pelayanan kesehatan kepada pasien. Di dalamnya juga terdapat berbagai risiko kerja, mulai dari paparan bahan berbahaya, limbah medis, infeksi, kecelakaan kerja, hingga keselamatan lingkungan rumah sakit.
+                </p>
+
+                <p class="paragraph quote-text">
+                    Di sinilah peran K3RS menjadi penting.
+                </p>
+
+                <p class="paragraph">
+                    Saya ingin mempelajari bagaimana menciptakan lingkungan rumah sakit yang <em>aman, sehat, dan nyaman</em>, baik bagi tenaga kesehatan, pasien, pengunjung, maupun seluruh pekerja di dalamnya.
+                </p>
+
+                <p class="paragraph">
+                    Sebagai Maba, saya tidak ingin hanya mengejar kelulusan. Saya ingin membangun kemampuan sejak sekarang, mulai dari memahami ilmu kesehatan lingkungan, keselamatan kerja, pengelolaan limbah, sanitasi, hingga kemampuan berkomunikasi dan bekerja dalam tim.
+                </p>
+
+                <p class="paragraph highlight-box">
+                    Saya percaya, langkah besar di masa depan selalu dimulai dari langkah kecil hari ini.
+                </p>
+
+                <p class="paragraph lead text-center">
+                    Saya adalah Maba Kesehatan Lingkungan.<br>
+                    Hari ini belajar, besok berkembang, dan suatu hari nanti siap berkontribusi untuk menciptakan rumah sakit yang lebih aman dan sehat.
+                </p>
+
+                <div class="narasi-footer-quote">
+                    <p class="footer-tagline">K3RS bukan hanya tentang bekerja di rumah sakit.</p>
+                    <p class="footer-main-quote">
+                        "K3RS adalah tentang menjaga keselamatan mereka yang menjaga keselamatan orang lain."
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- Overlay Zoom-In Polaroid -->
     <div id="zoomOverlay" class="zoom-overlay">
         <img id="zoomImage" src="" alt="Zoom Foto">
         <span class="close-hint">Klik di luar untuk menutup</span>
