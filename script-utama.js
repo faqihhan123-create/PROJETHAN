@@ -38,19 +38,17 @@ const btnIM = document.getElementById('btnIM');
 const modalNarasi = document.getElementById('modalNarasi');
 const btnCloseNarasi = document.getElementById('btnCloseNarasi');
 
-// Buka Modal Narasi
+// Buka Modal Narasi tanpa memicu Zoom Polaroid
 btnIM.addEventListener('click', function(e) {
     e.stopPropagation();
     modalNarasi.classList.add('aktif');
     document.body.style.overflow = 'hidden';
 });
 
-// Tutup Modal via Tombol X
 btnCloseNarasi.addEventListener('click', function() {
     tutupModalNarasi();
 });
 
-// Tutup Modal via Klik Luar Kertas
 modalNarasi.addEventListener('click', function(e) {
     if (e.target === modalNarasi) {
         tutupModalNarasi();
@@ -63,7 +61,7 @@ function tutupModalNarasi() {
 }
 
 // ==========================================
-// 3. KEYBOARD SHORTCUT (ESC) & BUG FIX BACK
+// 3. SHORTCUT ESC & BACK BUTTON CACHE
 // ==========================================
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
