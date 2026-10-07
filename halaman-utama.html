@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruang Kesenangan - HANIF</title>
 
-    <!-- Import Google Font Elegan & Sangat Jelas Dibaca -->
+    <!-- Import Google Font Elegan -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -24,14 +24,14 @@
                 <img src="foto1.jpg" alt="Foto 1" loading="lazy">
             </div>
 
-            <!-- Grup Polaroid 2 (Tengah) + Tombol (IM) Tepat di Bawahnya -->
+            <!-- Grup Polaroid 2 (Tengah) + Tombol (IM) -->
             <div class="polaroid-mid-group">
                 <div class="polaroid polaroid-2" data-foto="foto2.jpg">
                     <img src="foto2.jpg" alt="Foto 2" loading="lazy">
                 </div>
                 
-                <!-- TOMBOL (IM) DI BAWAH FOTO KEDUA -->
-                <button id="btnIM" class="btn-im" aria-label="Buka Narasi (IM)">
+                <!-- TOMBOL (IM) TEPA DI BAWAH FOTO KEDUA -->
+                <button id="btnIM" class="btn-im" type="button" aria-label="Buka Narasi (IM)">
                     (IM)
                 </button>
             </div>
@@ -45,12 +45,10 @@
 
     </div>
 
-    <!-- ============================================
-         MODAL POP-UP NARASI K3RS
-         ============================================ -->
+    <!-- MODAL POP-UP NARASI K3RS -->
     <div id="modalNarasi" class="modal-overlay">
         <div class="modal-card">
-            <button id="btnCloseNarasi" class="btn-close-narasi">&times;</button>
+            <button id="btnCloseNarasi" class="btn-close-narasi" type="button">&times;</button>
 
             <article class="narasi-content">
                 <h1 class="narasi-title">Dari Maba, Menuju Profesional K3RS</h1>
@@ -103,7 +101,7 @@
         </div>
     </div>
 
-    <!-- Overlay Zoom-In Polaroid -->
+    <!-- OVERLAY ZOOM POLAROID -->
     <div id="zoomOverlay" class="zoom-overlay">
         <img id="zoomImage" src="" alt="Zoom Foto">
         <span class="close-hint">Klik di luar untuk menutup</span>
