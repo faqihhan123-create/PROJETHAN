@@ -18,23 +18,30 @@
         
         <!-- Board 3 Polaroid -->
         <div class="polaroid-board">
+            
+            <!-- Polaroid 1 (Kiri) -->
             <div class="polaroid polaroid-1" data-foto="foto1.jpg">
                 <img src="foto1.jpg" alt="Foto 1" loading="lazy">
             </div>
-            <div class="polaroid polaroid-2" data-foto="foto2.jpg">
-                <img src="foto2.jpg" alt="Foto 2" loading="lazy">
+
+            <!-- Grup Polaroid 2 (Tengah) + Tombol (IM) Tepat di Bawahnya -->
+            <div class="polaroid-mid-group">
+                <div class="polaroid polaroid-2" data-foto="foto2.jpg">
+                    <img src="foto2.jpg" alt="Foto 2" loading="lazy">
+                </div>
+                
+                <!-- TOMBOL (IM) DI BAWAH FOTO KEDUA -->
+                <button id="btnIM" class="btn-im" aria-label="Buka Narasi (IM)">
+                    (IM)
+                </button>
             </div>
+
+            <!-- Polaroid 3 (Kanan) -->
             <div class="polaroid polaroid-3" data-foto="foto3.jpg">
                 <img src="foto3.jpg" alt="Foto 3" loading="lazy">
             </div>
-        </div>
 
-        <!-- ============================================
-             TOMBOL (IM) BACKGROUND COKELAT
-             ============================================ -->
-        <button id="btnIM" class="btn-im" aria-label="Buka Narasi (IM)">
-            (IM)
-        </button>
+        </div>
 
     </div>
 
@@ -43,10 +50,8 @@
          ============================================ -->
     <div id="modalNarasi" class="modal-overlay">
         <div class="modal-card">
-            <!-- Tombol Tutup X -->
             <button id="btnCloseNarasi" class="btn-close-narasi">&times;</button>
 
-            <!-- Isi Teks Narasi -->
             <article class="narasi-content">
                 <h1 class="narasi-title">Dari Maba, Menuju Profesional K3RS</h1>
                 <div class="narasi-divider"></div>
